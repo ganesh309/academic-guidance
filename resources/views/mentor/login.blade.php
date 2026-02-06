@@ -13,7 +13,7 @@
                 <form action="{{ route('mentor.login') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Email(mentor@gmail.com)</label>
                         <div class="input-group">
                             <input type="email" name="email" class="form-control with-icon" id="email" required placeholder="Enter your email">
                             <i class="fas fa-envelope"></i>
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Password(mentor123)</label>
                         <div class="input-group">
                             <input type="password" name="password" class="form-control with-icon" id="password" required placeholder="Enter your password">
                             <i class="fas fa-eye-slash" id="togglePassword"></i>

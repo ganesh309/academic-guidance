@@ -1,0 +1,59 @@
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: academic-guidance-app
+        container_name: academic-guidance-app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - app-network
+
+    webserver:
+        image: nginx:alpine
+        container_name: academic-guidance-webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+
+    db:
+        image: mysql:8.0
+        container_name: academic-guidance-db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "33060:3306"
+        environment:
+            MYSQL_DATABASE: academic_guidance_system
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_PASSWORD: rootpassword
+            MYSQL_USER: user
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql
+            - "./My Sql file/academic_guidance_system.sql:/docker-entrypoint-initdb.d/init.sql"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local
